@@ -78,7 +78,7 @@ while(iter<iterationThreshlod)&&(err>ERROR)
      %lrsupdate是将icp结果生成新的相对运动矩阵
     
      %% 相乘补全
-   % [X,A,W]=CrossCompletion(X,A,W);
+    [X,A,W]=CrossCompletion(X,A,W);
    
     %  [Imax,X,A]= updata(A, updatedM, Trss, MID, overlapRate, Trim, dTrim);                      
     [M,R,T] = SE3_LRS(X,W,'l1alm');

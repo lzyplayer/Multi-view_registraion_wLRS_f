@@ -74,12 +74,13 @@ while(iter<iterationThreshlod)&&(err>ERROR)
    
     
     %% lrs
-    [X,A]= LRSupdate(A, updatedM, MID, overlapRate);    
+    [X,A]= LRSupdate(A, updatedM, MID, overlapRate);    % Obtain X and A   
+     %lrsupdate是将icp结果生成新的相对运动矩阵
     
      %% 相乘补全
-   % [X,W]=CrossCompletion(A,updatedM,weight,MID,W);% Obtain X and A   
-    %lrsupdate是将icp结果生成新的相对运动矩阵
-    %     [Imax,X,A]= updata(A, updatedM, Trss, MID, overlapRate, Trim, dTrim);                      
+    [X,A,W]=CrossCompletion(X,A,W);
+   
+    %  [Imax,X,A]= updata(A, updatedM, Trss, MID, overlapRate, Trim, dTrim);                      
     [M,R,T] = SE3_LRS(X,W,'l1alm');
     preMotion= Motion;
     for i=1:scannum
