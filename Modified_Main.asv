@@ -4,27 +4,32 @@ clear GLOBAL
 clear FUNCTIONS
 %clear all
 close all
-%% 先加载模型drangon初始化参数
+%% 先加载模型初始化参数
+%crossTime=0;
 Trim = 0.4;
 res = 10;
 lamda=2;
 iterationThreshlod= 20;
-%RotTranO = [ones(3,14);zeros(3,14)];  %全0初始阵?
-load bunny;
-%load dragon;
-load RotTranB;
-%load happy;
-shape = bunny;
-RotTran = RotTranB;
-scannum=length(shape);
-scan=shape(:,1);
-Motion = {};
-%RotTran(1:3,:) = RotTran(1:3,:) + 0.05;加噪声？
-for i=1:scannum
-    scan{i}=1000*scan{i};
-end
-Motion = initialiseM(scannum,RotTran);
+%     load bunny;
+    %load dragon;
+load Chicken;
+%     load RotTranB;
+    %load happy;
+% shape = bunny;
+% RotTran = RotTranB;
+% scannum=length(shape);
+% scan=shape(:,1);
+% RotTran(1:3,:) = RotTran(1:3,:) + 0.05;%加噪声
+% for i=1:scannum
+%     scan{i}=1000*scan{i};
+% end
+% Motion = initialiseM(scannum,RotTran);
 
+scan=shape;
+scannum=size(shape,1);
+for i=1:scannum
+Motion{i} = p(i).M;
+end
 [scan,Mshape]=obtainShape(scan,Motion,0);%使用初始矩阵显示其形状并正规化scan
 
 %% 建立kd树
@@ -59,14 +64,14 @@ while(iter<iterationThreshlod)&&(err>ERROR)
         Data=scan{j}(:,1:res:end);
         [updatedM{k}, Pe]= myTrimICP(ns{i},Model, Data,relativeMotion, iterationThreshlod,Trim); % The Trimmed ICP   
         weight(k)= MSEs{i}/(Pe^2);% 权重      updatedM{k}为所有接受匹配的更新后的相对运动矩阵  如dragon有91个
-    %% 相对运动阵补齐
-        if A(j,i)~=1
-            num=num+1;
-            updatedM{num}=inv(updatedM{k});
-            A(j,i)=1;
-            MID=[MID;[j,i]];
-            weight(num)=weight(k);
-        end  
+    %% 相对运动阵对称补齐
+       if A(j,i)~=1
+           num=num+1;
+           updatedM{num}=inv(updatedM{k});
+           A(j,i)=1;
+          MID=[MID;[j,i]];
+           weight(num)=weight(k);
+       end  
     end 
     %% 生成权重块WIJ
     W=deal_weight(weight,MID); 
@@ -78,8 +83,10 @@ while(iter<iterationThreshlod)&&(err>ERROR)
      %lrsupdate是将icp结果生成新的相对运动矩阵
     
      %% 相乘补全
-    [X,A,W]=CrossCompletion(X,A,W);
-   
+    % t1=clock;
+   [X,A,W]=CrossCompletion(X,A,W);
+    %t2=clock;
+   % crossTime=crossTime+etime(t2,t1);
     %  [Imax,X,A]= updata(A, updatedM, Trss, MID, overlapRate, Trim, dTrim);                      
     [M,R,T] = SE3_LRS(X,W,'l1alm');
     preMotion= Motion;
@@ -91,7 +98,8 @@ while(iter<iterationThreshlod)&&(err>ERROR)
     
 end
 toc
+iter
 ObjV= com_objv( Motion, ns, scan,res)/scannum  
 [scan,Mshape]=obtainShape( scan,Motion ,1); 
- %crosssection(Mshape,2,99.8,100.2);     %dragon      
- crosssection(Mshape,1,-20.1,-19.8);    %bunny
+% crosssection(Mshape,2,99.8,100.2);     %dragon      
+ %crosssection(Mshape,1,-20.1,-19.8);    %bunny
