@@ -43,7 +43,7 @@ for i=1:length(scanSet)
             Trim(j)= length(id)/length(TDi);
         end
     end
-    TrM(i,:)=  Trim;   %就是论文中的  ？
+    TrM(i,:)=  Trim;   %
 end
 end
 

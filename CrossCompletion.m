@@ -1,6 +1,9 @@
 function [X,resultA,W]=CrossCompletion(X,A,W)
 %CROSSCOMPLETION 相乘补全
 %   采用所得尽可能大的权重积作为桥梁
+% WtoMin=W;
+% WtoMin(WtoMin==0)=1;
+% minW=min(min(WtoMin));
 scannum=size(A,1);
 resultA=A;
 for curr=1:scannum
@@ -35,5 +38,8 @@ function [bridge,curMaxW]=FindBridge(curr,tar,A,W,scannum)
             end
         end
     end
+%     if (curMaxW<minW) 
+%         bridge=0;
+%     end
     
 end

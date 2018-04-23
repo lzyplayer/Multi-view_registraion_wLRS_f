@@ -35,5 +35,6 @@ function [bridge,curMaxW]=FindBridge(curr,tar,A,W,scannum)
             end
         end
     end
+    if cur
     
 end

@@ -11,19 +11,28 @@ lamda=2;
 iterationThreshlod= 20;
 %RotTranO = [ones(3,14);zeros(3,14)];  %全0初始阵?
 load bunny;
-%load dragon;
+% load dragon;
 load RotTranB;
 %load happy;
 shape = bunny;
 RotTran = RotTranB;
 scannum=length(shape);
 scan=shape(:,1);
-Motion = {};
+% Motion = {};
 %RotTran(1:3,:) = RotTran(1:3,:) + 0.05;加噪声？
 for i=1:scannum
     scan{i}=1000*scan{i};
 end
 Motion = initialiseM(scannum,RotTran);
+
+% load Chicken;
+% load Chef;
+% scan = shape;
+% scannum=length(shape);
+% for i=1:scannum
+%     Motion{i}=p(i).M;
+% end
+
 
 [scan,Mshape]=obtainShape(scan,Motion,0);%使用初始矩阵显示其形状并正规化scan
 
@@ -84,14 +93,15 @@ while(iter<iterationThreshlod)&&(err>ERROR)
     [M,R,T] = SE3_LRS(X,W,'l1alm');
     preMotion= Motion;
     for i=1:scannum
-        Motion{i}=inv(M(:,:,1))*M(:,:,i);
+        Motion{i}=inv(M(:,:,1))*M(:,:,i);%都到1号的坐标系中去
     end
     err=comErr(preMotion,Motion,length(scan));
     
     
 end
 toc
-ObjV= com_objv( Motion, ns, scan,res)/scannum  
+iter
+ObjV = com_objv( Motion, ns, scan,res)/scannum  
 [scan,Mshape]=obtainShape( scan,Motion ,1); 
  %crosssection(Mshape,2,99.8,100.2);     %dragon      
  crosssection(Mshape,1,-20.1,-19.8);    %bunny
