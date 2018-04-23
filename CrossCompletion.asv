@@ -1,4 +1,4 @@
-function [resultA,updatedM,weight,MID]=CrossCompletion(X,A,W)
+function [resultA,updatedM,weight,MID]=CrossCompletion(A,updatedM,weight,MID,W)
 %CROSSCOMPLETION 相乘补全
 %   采用所得尽可能大的权重积作为桥梁
 scannum=size(A,1);
@@ -8,17 +8,7 @@ for curr=1:scannum
         if (A(curr,tar)==0)
             [bridge,crossWeight]=FindBridge(curr,tar,W,scannum);
             if(bridge~=0)
-<<<<<<< HEAD
-                motion=X((curr*4-3):curr*4,(bridge*4-3):bridge*4)*X((bridge*4-3):bridge*4,(tar*4-3):tar*4);%运动传递
-                X((curr*4-3):curr*4,(tar*4-3):tar*4)=motion;
-                X((tar*4-3):tar*4,(curr*4-3):curr*4)=inv(motion);
-                W(curr,tar)=crossWeight;
-                W(tar,curr)=crossWeight;
-                resultA(curr,tar)=1;%
-                resultA(tar,curr)=1;
-=======
-                motion=X[]%%%%%%edit  here
->>>>>>> parent of f04a553... with_symmetry_crosscompletion
+                motion=
             end
         end 
     end  

@@ -83,10 +83,15 @@ while(iter<iterationThreshlod)&&(err>ERROR)
      %lrsupdate是将icp结果生成新的相对运动矩阵
     
      %% 相乘补全
+<<<<<<< HEAD
     % t1=clock;
    [X,A,W]=CrossCompletion(X,A,W);
     %t2=clock;
    % crossTime=crossTime+etime(t2,t1);
+=======
+   % [X,A,W]=CrossCompletion(X,A,W);
+   
+>>>>>>> parent of f04a553... with_symmetry_crosscompletion
     %  [Imax,X,A]= updata(A, updatedM, Trss, MID, overlapRate, Trim, dTrim);                      
     [M,R,T] = SE3_LRS(X,W,'l1alm');
     preMotion= Motion;
