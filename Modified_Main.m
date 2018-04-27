@@ -10,14 +10,15 @@ res = 10;
 lamda=2;
 iterationThreshlod= 20;
 %RotTranO = [ones(3,14);zeros(3,14)];  %»´0≥ı º’Û?
-load bunny;
-% load dragon;
-load RotTranB;
-%load happy;
-shape = bunny;
-RotTran = RotTranB;
-scannum=length(shape);
-scan=shape(:,1);
+load new_bunny;
+scan=data;
+% load dragon;       
+%load happy; 
+% shape = bunny;
+% scan=shape(:,1);
+RotTran = RotTrannewB;
+scannum=length(scan);
+
 % Motion = {};
 %RotTran(1:3,:) = RotTran(1:3,:) + 0.05;º”‘Î…˘£ø
 for i=1:scannum
@@ -102,6 +103,7 @@ end
 toc
 iter
 ObjV = com_objv( Motion, ns, scan,res)/scannum  
+[RotErr,TranErr]=comRTErr(Motion)
 [scan,Mshape]=obtainShape( scan,Motion ,1); 
  %crosssection(Mshape,2,99.8,100.2);     %dragon      
  crosssection(Mshape,1,-20.1,-19.8);    %bunny

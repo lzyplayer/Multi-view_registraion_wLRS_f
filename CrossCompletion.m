@@ -7,7 +7,7 @@ function [X,resultA,W]=CrossCompletion(X,A,W)
 scannum=size(A,1);
 resultA=A;
 for curr=1:scannum
-    for tar=curr:scannum
+    for tar=1:scannum
         if (A(curr,tar)==0)
             [bridge,crossWeight]=FindBridge(curr,tar,A,W,scannum);
             if(bridge~=0)
