@@ -36,7 +36,7 @@ Motion = initialiseM(scannum,RotTran);
 % end
 
 
-[scan,Mshape]=obtainShape_Colorful(scan,Motion,1);%使用初始矩阵显示其形状并正规化scan
+[scan,Mshape]=obtainShape_Colorful(scan,Motion,0);%使用初始矩阵显示其形状并正规化scan
 
 %% 建立kd树
 
