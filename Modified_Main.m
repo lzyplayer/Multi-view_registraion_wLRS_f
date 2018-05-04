@@ -10,14 +10,14 @@ res = 10;
 lamda=2;
 iterationThreshlod= 20;
 %RotTranO = [ones(3,14);zeros(3,14)];  %全0初始阵?
-% load new_bunny;
+ load new_bunny;
 % scan=data;
-load dragon;       
+%load dragon;       
 %load happy; 
-shape = dragon;
+shape = data;
 scan=shape(:,1);
-% RotTran = RotTrannewB;
-RotTran=RotTranD;
+ RotTran = RotTrannewB;
+%RotTran=RotTranB;
 scannum=length(scan);
 
 % Motion = {};
@@ -36,7 +36,7 @@ Motion = initialiseM(scannum,RotTran);
 % end
 
 
-[scan,Mshape]=obtainShape_Colorful(scan,Motion,1);%使用初始矩阵显示其形状并正规化scan
+[scan,Mshape]=obtainShape_Colorful(scan,Motion,0);%使用初始矩阵显示其形状并正规化scan
 
 %% 建立kd树
 
@@ -70,7 +70,7 @@ while(iter<iterationThreshlod)&&(err>ERROR)
         Data=scan{j}(:,1:res:end);
         [updatedM{k}, Pe]= myTrimICP(ns{i},Model, Data,relativeMotion, iterationThreshlod,Trim); % The Trimmed ICP   
         weight(k)= MSEs{i}/(Pe^2);% 权重      updatedM{k}为所有接受匹配的更新后的相对运动矩阵  如dragon有91个
-    %% 相对运动阵补齐
+    %% 相对运动阵对称补齐
         if A(j,i)~=1
             num=num+1;
             updatedM{num}=inv(updatedM{k});
@@ -81,8 +81,6 @@ while(iter<iterationThreshlod)&&(err>ERROR)
     end 
     %% 生成权重块WIJ
     W=deal_weight(weight,MID); 
-    
-   
     
     %% lrs
     [X,A]= LRSupdate(A, updatedM, MID, overlapRate);    % Obtain X and A   
@@ -104,7 +102,7 @@ end
 toc
 iter
 ObjV = com_objv( Motion, ns, scan,res)/scannum  
-% [RotErr,TranErr]=comRTErr(Motion) %只有兔子真值目前
+ [RotErr,TranErr]=comRTErr(Motion) %只有兔子真值对比目前
 [scan,Mshape]=obtainShape_Colorful( scan,Motion ,1); 
- crosssection(Mshape,2,99.8,100.2);     %dragon      
-%  crosssection(Mshape,1,-20.1,-19.8);    %bunny
+%  crosssection(Mshape,2,99.8,100.2);     %dragon      
+ crosssection(Mshape,1,-20.1,-19.8);    %bunny
