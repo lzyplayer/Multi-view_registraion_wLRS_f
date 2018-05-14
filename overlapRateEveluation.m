@@ -11,7 +11,7 @@ for i=1:length(scanSet)
     TD= []; nums= [];  N= length(scanSet);
     for j=1:N
         if i~=j
-            relativeMotion=inv(Motion{i})*Motion{j};%这里的相对运动矩阵是根据RotTran来的，是粗略值么？
+            relativeMotion=inv(Motion{i})*Motion{j};%这里的相对运动矩阵是根据RotTran来的
             TData=relativeMotion*scanSet{j}(:,1:res:end);
             [corr,TDi]=knnsearch(ns{i}, TData(1:3,:)');%求出实际点云和计算得到点云间的误差
             TD= [TD;TDi];                       %最终TD里有n张点云全部的误差点对距离

@@ -12,7 +12,7 @@ iterationThreshlod= 20;
 
 load bunny;
 load RotTranB;
-%  load new_bunny;
+load new_bunny;
 % scan=data;
 % load dragon;       
 %load happy; 
