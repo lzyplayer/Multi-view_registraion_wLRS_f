@@ -17,8 +17,8 @@ for curr=1:scannum
                 X((tar*4-3):tar*4,(curr*4-3):curr*4)=inv(motion);%使用了对称补全
                 W(curr,tar)=crossWeight;
                 W(tar,curr)=crossWeight;%使用了对称补全
-                %resultA(curr,tar)=1;%
-                %resultA(tar,curr)=1;
+                resultA(curr,tar)=1;%
+                resultA(tar,curr)=1;
             end
         end 
     end  

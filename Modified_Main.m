@@ -20,14 +20,14 @@ shape = bunny;
 scan=shape(:,1);
 RotTran=RotTranB;
 scannum=length(scan);
-% RotTran=noisy_input(RotTran,0.05);          %蒙塔卡罗加噪声
+RotTran=noisy_input(RotTran,0.00);          %蒙塔卡罗加噪声
 % Motion = {};
 
 for i=1:scannum
     scan{i}=1000*scan{i};
 end
 Motion = initialiseM(scannum,RotTran);
-
+Motion_backup=Motion;
 % load Chicken;
 % load Chef;
 % scan = shape;
@@ -97,7 +97,9 @@ while(iter<iterationThreshlod)&&(err>ERROR)
         Motion{i}=inv(M(:,:,1))*M(:,:,i);%都到1号的坐标系中去
     end
     err=comErr(preMotion,Motion,length(scan));
-    
+    if(norm(Motion{1,2}-Motion_backup{1,2},'fro')>20) %cha cuo ti xing
+        error('registrion out of range');
+    end
     
 end
 toc
@@ -106,7 +108,6 @@ iter
 %  crosssection(Mshape,2,99.8,100.2);     %dragon      
  crosssection(Mshape,1,-20.1,-19.8);    %bunny
 ObjV = com_objv( Motion, ns, scan,res)/scannum  
-load BunnySet;                  %对兔子真值比对
-Motion=compare_helping(data,bunny,Motion);
-[RotErr,TranErr]=comRTErr(Motion)           %只有兔子真值对比目前
+load BunnySet;                
+[RotErr,TranErr]=com_realRT(data,bunny,Motion,GrtR,GrtT)     %真值比对
 

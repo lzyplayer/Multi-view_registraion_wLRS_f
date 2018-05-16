@@ -38,6 +38,7 @@ toshowData=9;
     resultD=updatedM*scan{toshowData};
      plot3(resultD(1,:),resultD(2,:),resultD(3,:),'.c');
      hold on
+     figure;
     plot3(scan{toshowModel}(1,:),scan{toshowModel}(2,:),scan{toshowModel}(3,:),'.b');
     hold on
     
