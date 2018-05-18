@@ -2,9 +2,9 @@ function [ scan, Mshape] = obtainShape_Colorful( scan,Motion,show )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 Mshape=[];
-% figure
-colorfulList={'.b','.g','.r','.c','.m','.y'};
-% colorfulList={'.b','.c'};
+figure;
+% colorfulList={'.b','.g','.r','.c','.m','.y'};
+colorfulList={'.b','.c'};
 types=length(colorfulList);
 for i=1:length(scan)
       [row,col]=size(scan{i}');
