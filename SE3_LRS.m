@@ -60,10 +60,10 @@ factors=zeros(n_pairs,1);
 for k=1:n_pairs
     i=I(k); j=J(k);
     tij=X(4*i-3:4*i-1,4*j);
-    factors(k)=norm(tij);
+    factors(k)=norm(tij); %每对儿配准平移部分的大小
 end
 
-global_scale=max(factors);
+global_scale=max(factors);  
 %global_scale=norm(factors)
 %global_scale=mean(factors)
 

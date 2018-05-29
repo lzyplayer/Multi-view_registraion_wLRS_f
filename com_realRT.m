@@ -3,20 +3,21 @@ function  [ RotErr, TranErr ] = com_realRT( real_data,cur_data,Motion ,GrtR,GrtT
 %   此处显示详细说明
 scannum=size(real_data,2);
 regroup={};
-for i=1:scannum
-    tarNum=size(real_data{i},2);
-    for j=1:scannum
-        curNum=size(cur_data{j,1},1);
-        if tarNum==curNum
-            break;
-        end    
-    end
-    if tarNum~=curNum
-        error('ERROR: wrong pair!');
-    end
-    regroup{i}=Motion{j};
-end
-
+% for i=1:scannum
+%     tarNum=size(real_data{i},2);
+%     for j=1:scannum
+%         curNum=size(cur_data{j,1},1);
+%         if tarNum==curNum
+%             break;
+%         end    
+%     end
+%     if tarNum~=curNum
+%         error('ERROR: wrong pair!');
+%     end
+%     regroup{i}=Motion{j};
+% end
+  regroup=Motion;
+  
 RotErr=0;
 TranErr=0;
 for i=1:scannum
@@ -29,6 +30,7 @@ for i=1:scannum
 %     TranErr=TranErr+Terr;
 end
 RotErr=RotErr/scannum;
+RotErr=log(RotErr);
 TranErr=(TranErr/scannum)*1000; %zoom
 
 
